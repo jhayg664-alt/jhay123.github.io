@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Things I Love ♥</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .logo-image {
+            width: 85px !important;
+            height: 85px !important;
+            min-width: 85px;
+            min-height: 85px;
+            max-width: 85px;
+            max-height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--accent);
+            box-shadow: 0 2px 15px rgba(255, 107, 157, 0.4);
+            display: block;
+        }
+
+        .sidenav-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .things-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .thing-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 157, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .thing-card.visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .thing-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .thing-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .thing-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .progress-counter {
+            position: sticky;
+            top: 20px;
+            background: linear-gradient(135deg, var(--accent), #ff8fab);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+            z-index: 10;
+        }
+
+        .progress-counter span {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .things-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.05), rgba(255, 182, 193, 0.05));
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 157, 0.2);
+        }
+
+        .intro-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .intro-section p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            color: var(--dark);
+            line-height: 1.8;
+        }
+
+        .reveal-controls {
+            text-align: center;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal-controls.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-btn {
+            background: linear-gradient(135deg, var(--accent), #ff8fab);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(255, 107, 157, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .reveal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .reveal-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .reveal-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .reveal-btn {
+                width: 90%;
+                max-width: 400px;
+                padding: 16px 30px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <!-- Side Navigation -->
+    <nav class="sidenav" id="sidenav">
+        <div class="sidenav-header">
+            <div class="sidenav-logo">
+                <img src="Pictures/moon.png" alt="Moon" class="logo-image">
+            </div>
+            <h2 class="sidenav-title">Our Love Story</h2>
+            <p class="sidenav-subtitle">Happy Valentines</p>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="calendar.html">
+                    <span class="nav-icon"></span>
+                    <span>Calendar of Love</span>
+                </a>
+            </li>
+            <li>
+                <a href="letter.html">
+                    <span class="nav-icon"></span>
+                    <span>Valentines Letter</span>
+                </a>
+            </li>
+            <li>
+                <a href="100things.html" class="active">
+                    <span class="nav-icon"></span>
+                    <span>100 Things I Love</span>
+                </a>
+            </li>
+            <li>
+                <a href="playlist.html">
+                    <span class="nav-icon"></span>
+                    <span>Our Playlist</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="content-wrapper">
+            <h1 class="page-title">100 Things I Love About You</h1>
+            <p class="page-subtitle">Every single thing makes me fall deeper ♥</p>
+
+            <div class="content-box">
+                <div class="intro-section">
+                    <h2>Readwell, baby</h2>
+                    <p>
+                        There are countless reasons why I love you, but here are 100 things that I love you the most.
+                        Each one is a piece of why you're so special to me. Basahin mo lahat babyyyy ahhhh, don't skip hehehehhe, mwaaaaaa
+                    </p>
+                </div>
+
+                <div class="progress-counter">
+                    <span id="visibleCount">0</span> / 100 reasons discovered
+                </div>
+
+                <div class="things-grid" id="thingsGrid">
+                    <!-- Items will be generated by JavaScript -->
+                </div>
+
+                <div class="reveal-controls">
+                    <button class="reveal-btn" id="revealBtn" onclick="revealNext()">Reveal Next Reason</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // List of 100 things - CUSTOMIZE THESE!
+        const things = [
+            "Your beautiful smile, yung labas dimple hehe",
+            "The way we laugh at my silly jokes, gaya nung sa NSTP Day",
+            "How your eyes sparkle when you're excited about something, parang bata na excited ihhh cute na cute.",
+            "Your kindness towards everyone you meet, kahit sa mga hindi mo kilala",
+            "The way you hold my hand and make me feel safe, always comforting",
+            "Your adorable voice, kahit lagi galit HAHAHAHAHAHA",
+            "How you know when something's bothering me, kahit minsan hindi pero yk padin hehe",
+            "Your love for our inside joke, literal na tayo lang ang nakakaaalam",
+            "The way you say my name, kahit asim payan keleg padin hehehe",
+            "Your incredible patience with me, eto talaga on toppppp",
+            "How you show your emotions when you're happy, lagi tayong masaya ihhh",
+            "Your unique sense of style, pak na pak na pak lagi",
+            "The way you play with your hair when you're thinking, my most and one and only favorite curly hair",
+            "Your passion for the things you love, lalo na yung mga hibbies mo bb",
+            "How you make even ordinary moments special, like our lazy days together",
+            "Your cute little habits, My yapper",
+            "The way you comfort me when I'm down, awwwwww",
+            "Your beautiful heart, that always care for others",
+            "How you believe in me, kahit minsan hindi ko deserve pero you still do",
+            "Your enthusiasm baby, ",
+            "The way you scrunch your nose, apaka cote, taray taray nyan ihhh",
+            "Your amazing hugs, the best hugs in the world",
+            "How you remember the little things I tell you, kahit nakakalimutan nya monthsaryyyy😒",
+            "Your strength during difficult times, proud na proud ako sayo babyyyy",
+            "The way you support my dreams",
+            "Your silly faces, heheheeh my favorite thing to see",
+            "How you make me want to be a better person, thank you sa palaging pag stay mahallll",
+            "Your love for adventures, kahit saan basta tayo magkasama g lang ehhhh",
+            "The way you concentrate, cute padin ihhh kahit nakakunot na noo",
+            "Your warmth and caring nature, thank you alwayssss",
+            "How you sing along to your favorite songs, galing galing kahit downtown kinaladkad payan HAHAHAHHAHAH",
+            "Your beautiful soul, bait bait nyannnn",
+            "The way you get excited about small things, thank you kasi kahit sa mga simpleng bagay napapasaya kita babyyyy",
+            "Your honesty with me, sorry kung minsan ako yung hindi nagiging honest, mwaaaa I love youuuu",
+            "How you make me feel understood, thank you kasi kahit minsan hindi ko maipaliwanag ng maayos yung feelings ko, you still get me",
+            "Your cute texts and messages, kahit di ako nilalambing",
+            "The way you look at me, kahit pagalit payan cute padin the iconic one",
+            "Your determination and drive, kahit palaging mahirap ang buhay",
+            "How you never give up on us, lagi padin nating pinipiling ayusin palagi. ",
+            "Your playful side, liga liga ng baby ko nayan ihhh.",
+            "The way you challenge me to grow so that i can become better",
+            "How you make me laugh until I cry, lumuluha na ihhh tas sakit pa sa tyan",
+            "Your thoughtfulness in everything you do, thank you for being toughtful babe",
+            "The way you remember our special moments, thank you sa lahat ng effort babyyy",
+            "Your forgiveness and understanding, this is the best baby",
+            "How you make every day brighter, kahit bad day ako nagagawa mo padin good day",
+            "Your unique perspective on life, I am amazed how you view in life baby",
+            "The way you cuddle with me, cuddle on top",
+            "Your loyalty and commitment, thank you for being loyal in this generation",
+            "How you inspire me daily in my everyday life",
+            "Your beautiful mind, napakalawak ng imagination",
+            "The way you get sleepy, my sleepyhead baby",
+            "Your love for late-night conversations kahit lagi agad ako tulog sorry heheheheheh",
+            "How you make me feel cherished",
+            "Your sense of humor parehas tayu hehehehehe",
+            "The way you care for others, the best kindness I've ever seen",
+            "Your random acts of kindness, lalo na sa mga eldearly and people who are trying there best to live",
+            "How you make our relationship a priority",
+            "Your cute yawns",
+            "The way you dream big, hello my future Atty. Krisha Alexandra Talento CPA",
+            "Your resilience in tough times, thank for always surviving",
+            "How you accept me for who I am",
+            "Your spontaneity, kahit saan g",
+            "The way you kiss me, keleg keleg",
+            "Your emotional depth, Thank for this baby, thank you for always trying",
+            "How you celebrate my successes, the way you celebrate too",
+            "The way you make me feel at home",
+            "Your quirky personality",
+            "How you love unconditionally, loving me in a rough times is a diffirent thing",
+            "Your beautiful voice, singer talaga yan sha",
+            "The way you motivate me",
+            "Your creativity, Im amazed with your hobbies baby",
+            "How you make boring things fun (us always)",
+            "Your positive energy, wag negga",
+            "The way you handle stress",
+            "Your empathy for others",
+            "How you make me feel safe to be vulnerable, aww I feel safe with you mahal",
+            "Your random surprises, the best yung surprise bag from oxygen diko talaga inexpect hehehehhehe",
+            "The way you get excited about our future, hello my future wife",
+            "Your commitment to us",
+            "How you make time for me even were both busy",
+            "Your gentle touch, this makes me feel safe",
+            "The way you encourage me",
+            "Your ability to make me smile no matter what",
+            "How you share your thoughts and feelings with me take you for trying to communicate your feelings with me, thank you for being better",
+            "Your respect for me",
+            "The way you make our love grow stronger",
+            "Your optimism even in dark times",
+            "How you make me feel like the luckiest person alive, (buti crinushback kita)",
+            "Your precious reactions, my cutie pie babyyy",
+            "The way you trust me even though I broke it one time, sorry",
+            "Your dedication to making us work",
+            "How you bring out the best in me",
+            "Your loving nature",
+            "The way you make every moment count, every moment with you is special",
+            "Your genuine care for me",
+            "How you love me for me",
+            "Your patience when I’m not okay, kahit hindi mo alam anong gagawin, you still stay",
+            "The way you choose me every single day, kahit mahirap, kahit pagod, ikaw padin",
+            "And simply being YOU ♥",
+            "I want you because its you and only you, and I love you for being you. ♥"
+        ];
+
+        let currentRevealed = 0;
+
+        // Create floating hearts
+        function createHearts() {
+            const heartBg = document.getElementById('heartBg');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '♥';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartBg.appendChild(heart);
+            }
+        }
+
+        // Toggle mobile menu
+        function toggleMenu() {
+            document.getElementById('sidenav').classList.toggle('active');
+        }
+
+        // Generate thing cards
+        function generateThings() {
+            const grid = document.getElementById('thingsGrid');
+            things.forEach((thing, index) => {
+                const card = document.createElement('div');
+                card.className = 'thing-card';
+                card.setAttribute('data-index', index);
+                card.innerHTML = `
+                    <div class="thing-number">#${index + 1}</div>
+                    <div class="thing-text">${thing}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Reveal next item
+        function revealNext() {
+            if (currentRevealed >= things.length) {
+                return;
+            }
+
+            const cards = document.querySelectorAll('.thing-card');
+            const nextCard = cards[currentRevealed];
+            const revealControls = document.querySelector('.reveal-controls');
+            
+            if (nextCard) {
+                nextCard.classList.add('visible');
+                currentRevealed++;
+                
+                // Update counter with animation
+                animateCounter(currentRevealed);
+                
+                // Update button text
+                const btn = document.getElementById('revealBtn');
+                if (currentRevealed >= things.length) {
+                    btn.textContent = 'All Reasons Revealed! ♥';
+                    btn.disabled = true;
+                } else {
+                    btn.textContent = `Reveal Next Reason ♥ (${currentRevealed}/100)`;
+                }
+                
+                // Move button after the newly revealed card
+                nextCard.parentNode.insertBefore(revealControls, nextCard.nextSibling);
+                
+                // Animate button appearance
+                revealControls.classList.remove('visible');
+                setTimeout(() => {
+                    revealControls.classList.add('visible');
+                }, 100);
+                
+                // Auto scroll to the button
+                setTimeout(() => {
+                    revealControls.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 400);
+            }
+        }
+
+        // Animate counter
+        function animateCounter(targetCount) {
+            const counter = document.getElementById('visibleCount');
+            const currentCount = parseInt(counter.textContent);
+            const duration = 500; // milliseconds
+            const steps = 20;
+            const increment = (targetCount - currentCount) / steps;
+            let step = 0;
+
+            const interval = setInterval(() => {
+                step++;
+                if (step >= steps) {
+                    counter.textContent = targetCount;
+                    clearInterval(interval);
+                } else {
+                    counter.textContent = Math.floor(currentCount + (increment * step));
+                }
+            }, duration / steps);
+        }
+
+        // Auto-reveal first item on load
+        function autoRevealFirst() {
+            setTimeout(() => {
+                revealNext();
+                // Show the button initially
+                const revealControls = document.querySelector('.reveal-controls');
+                revealControls.classList.add('visible');
+            }, 500);
+        }
+
+        // Initialize
+        createHearts();
+        generateThings();
+        autoRevealFirst();
+    </script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Letter ♥</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .letter-header {
+            margin-bottom: 30px;
+        }
+
+        .letter-to {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .letter-body p {
+            margin-bottom: 25px;
+        }
+
+        .letter-footer {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .letter-footer p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .signature {
+            font-size: 26px !important;
+            color: var(--accent) !important;
+            font-style: italic;
+        }
+
+        .logo-image {
+            width: 85px !important;
+            height: 85px !important;
+            min-width: 85px;
+            min-height: 85px;
+            max-width: 85px;
+            max-height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--accent);
+            box-shadow: 0 2px 15px rgba(255, 107, 157, 0.4);
+            display: block;
+        }
+
+        .sidenav-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        /* Quiz Container Styles */
+        .quiz-container {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quiz-container.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.05), rgba(255, 182, 193, 0.05));
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 157, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-question.answered {
+            border-color: rgba(76, 175, 80, 0.5);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05), rgba(144, 238, 144, 0.05));
+        }
+
+        .quiz-question h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .quiz-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            border: 2px solid rgba(255, 107, 157, 0.3);
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+        }
+
+        .quiz-input.correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .quiz-feedback {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quiz-feedback.correct {
+            color: #4CAF50;
+        }
+
+        .quiz-feedback.incorrect {
+            color: #ff6b9d;
+        }
+
+        .quiz-progress {
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        .progress-hearts {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 30px;
+        }
+
+        .progress-heart {
+            color: #ddd;
+            transition: all 0.5s ease;
+            transform: scale(1);
+        }
+
+        .progress-heart.filled {
+            color: var(--accent);
+            animation: heartPulse 0.6s ease;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .reveal-button {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--accent), #ff8fab);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            opacity: 0.5;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .reveal-button.active {
+            opacity: 1;
+            pointer-events: auto;
+            animation: buttonGlow 2s ease-in-out infinite;
+        }
+
+        .reveal-button.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        @keyframes buttonGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3); }
+            50% { box-shadow: 0 4px 25px rgba(255, 107, 157, 0.6); }
+        }
+
+        /* Letter Container Styles */
+        .letter-container {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            display: none;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .letter-container.revealed {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Celebration overlay */
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .celebration-overlay.active {
+            opacity: 1;
+        }
+
+        .celebration-heart {
+            position: absolute;
+            font-size: 40px;
+            color: var(--accent);
+            animation: celebrationFloat 3s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes celebrationFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Celebration overlay -->
+    <div class="celebration-overlay" id="celebrationOverlay"></div>
+
+    <!-- Floating hearts background -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <!-- Side Navigation -->
+    <nav class="sidenav" id="sidenav">
+        <div class="sidenav-header">
+            <div class="sidenav-logo">
+                <img src="Pictures/moon.png" alt="Moon" class="logo-image">
+            </div>
+            <h2 class="sidenav-title">Our Love Story</h2>
+            <p class="sidenav-subtitle">Happy Valentines</p>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="calendar.html">
+                    <span class="nav-icon"></span>
+                    <span>Calendar of Love</span>
+                </a>
+            </li>
+            <li>
+                <a href="letter.html" class="active">
+                    <span class="nav-icon"></span>
+                    <span>Valentines Letter</span>
+                </a>
+            </li>
+            <li>
+                <a href="100things.html">
+                    <span class="nav-icon"></span>
+                    <span>100 Things I Love</span>
+                </a>
+            </li>
+            <li>
+                <a href="playlist.html">
+                    <span class="nav-icon"></span>
+                    <span>Our Playlist</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="content-wrapper">
+            <h1 class="page-title">My Love Letter</h1>
+            <p class="page-subtitle">Kinikilig yan sha masyado</p>
+
+            <!-- Quiz Container -->
+            <div class="quiz-container" id="quizContainer">
+                <div class="content-box">
+                    <div class="quiz-progress">
+                        <p>Answer these questions about us to unlock your letter ♥</p>
+                        <div class="progress-hearts">
+                            <span class="progress-heart" id="heart1">♥</span>
+                            <span class="progress-heart" id="heart2">♥</span>
+                            <span class="progress-heart" id="heart3">♥</span>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question1">
+                        <h3>1. What's the best day of my life? (MM/DD/YYYY)</h3>
+                        <input 
+                            type="text" 
+                            class="quiz-input" 
+                            id="answer1" 
+                            placeholder="Enter the date..."
+                            autocomplete="off"
+                        >
+                        <div class="quiz-feedback" id="feedback1"></div>
+                    </div>
+
+                    <div class="quiz-question" id="question2">
+                        <h3>2. What's my favorite nickname for you?</h3>
+                        <input 
+                            type="text" 
+                            class="quiz-input" 
+                            id="answer2" 
+                            placeholder="Type your answer..."
+                            autocomplete="off"
+                        >
+                        <div class="quiz-feedback" id="feedback2"></div>
+                    </div>
+
+                    <div class="quiz-question" id="question3">
+                        <h3>3. What's the first thing I gave you back?</h3>
+                        <input 
+                            type="text" 
+                            class="quiz-input" 
+                            id="answer3" 
+                            placeholder="Ano kaya hehhheehe..."
+                            autocomplete="off"
+                        >
+                        <div class="quiz-feedback" id="feedback3"></div>
+                    </div>
+
+                    <button class="reveal-button" id="revealButton">
+                        Reveal My Letter ♥
+                    </button>
+                </div>
+            </div>
+
+            <!-- Letter Container (Initially Hidden) -->
+            <div class="letter-container" id="letterContainer">
+                <div class="content-box">
+                    <div class="letter-header">
+                        <p class="letter-to">To My Babyyyyy,</p>
+                    </div>
+                    <div class="letter-body">
+                        <p>
+                           Hello Baby, It's another month of us being together, and it's special day today because its our second valentines together babyyyyyy.
+                           <span class="highlight">Happy Valentines Day Mahal ko!</span>
+                            I know na naging mahirap ang last month para sa atin, napakaraming away, pagtatalo, at hindi pagkakaintindihan.
+                            Pero sa kabila ng lahat ng yun, nandito pa rin tayo, mas matatag at mas malakas. Thank you sa palaging pagunawa at pagmamahal sa akin baby, mahal na mahal kita.
+                        </p>
+                        <p>
+                            <span class="highlight">Happy happy valentines again baby ko!!! </span>, 
+                            Sorry kung wala ako masyado pera ngayon, wala pa ihhh, wala pa, promise babawi ako in the future baby.
+                            Sana masaya ka ngayong valentines, kahit short ako ngayon I tried my best padin para mapasaya ka at gawing extra especial tong valentines nato hehehehehee.
+
+                        </p>
+                        <p>
+                            It's a usual moth babe,mahal na mahal padin kita sobra sobraaaaaa. Thank you sa laging pag sama at pasabay sa mga trip 
+                            ko sa buhay at sa plagi nating pagtawa hanggang dina tayo makahinga HAHAHHHAHAAHAH. Kung may ibang timeline at universe pa ito at ito ang pipiliin ko, 
+                            ikaw at ikaw lang palagi ang gugustuhin ko wala ng iba babyyyyyy.
+                        </p>
+                        <p>
+                           Again, Happy Valentines Day Mahal ko, I love you so much and I hope na masaya ka ngayong valentines kahit short ako ngayon, I promise babawi ako in the future baby.
+                        </p>
+                    </div>
+                    <div class="letter-footer">
+                        <p>Forever your Babyyy,</p>
+                        <p class="signature">With All Of My Love, Mahal ♥</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizAnswers = {
+            1: {
+                correct: ['03/27/2025', '4/27/2025', '03-27-2025', '3-27-2025'],
+                message: 'Yes! Our special day Baby'
+            },
+            2: {
+                correct: ['Alisha', 'ALISHA', 'alisha'],
+                message: 'That\'s right, baby! ♥'
+            },
+            3: {
+                correct: ['TUMBLER', 'tumbler', 'Tumbler'],
+                message: 'Perfect answer, mahal ♥'
+            }
+        };
+
+        let correctAnswers = 0;
+
+        // Check if quiz was already completed
+        function checkQuizCompleted() {
+            const quizCompleted = sessionStorage.getItem('quizCompleted');
+            if (quizCompleted === 'true') {
+                // Skip quiz and show letter immediately
+                const quizContainer = document.getElementById('quizContainer');
+                const letterContainer = document.getElementById('letterContainer');
+                quizContainer.style.display = 'none';
+                letterContainer.style.display = 'block';
+                letterContainer.classList.add('revealed');
+            }
+        }
+
+        // Create floating hearts
+        function createHearts() {
+            const heartBg = document.getElementById('heartBg');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '♥';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartBg.appendChild(heart);
+            }
+        }
+
+        // Toggle mobile menu
+        function toggleMenu() {
+            document.getElementById('sidenav').classList.toggle('active');
+        }
+
+        // Check answer
+        function checkAnswer(questionNum) {
+            const input = document.getElementById(`answer${questionNum}`);
+            const feedback = document.getElementById(`feedback${questionNum}`);
+            const question = document.getElementById(`question${questionNum}`);
+            const userAnswer = input.value.trim().toLowerCase();
+            
+            if (userAnswer === '') return;
+
+            const config = quizAnswers[questionNum];
+            let isCorrect = false;
+
+            if (config.acceptAny) {
+                isCorrect = userAnswer.length > 0;
+            } else {
+                isCorrect = config.correct.some(ans => ans.toLowerCase() === userAnswer);
+            }
+
+            if (isCorrect && !input.classList.contains('correct')) {
+                input.classList.add('correct');
+                question.classList.add('answered');
+                feedback.textContent = config.message;
+                feedback.classList.add('correct', 'show');
+                
+                // Fill progress heart
+                const heart = document.getElementById(`heart${questionNum}`);
+                heart.classList.add('filled');
+                
+                correctAnswers++;
+                checkAllAnswered();
+            } else if (!isCorrect) {
+                feedback.textContent = 'Hmm, try again baby...';
+                feedback.classList.remove('correct');
+                feedback.classList.add('incorrect', 'show');
+                
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            }
+        }
+
+        // Check if all questions are answered
+        function checkAllAnswered() {
+            const revealButton = document.getElementById('revealButton');
+            if (correctAnswers === 3) {
+                revealButton.classList.add('active');
+            }
+        }
+
+        // Create celebration effect
+        function createCelebration() {
+            const overlay = document.getElementById('celebrationOverlay');
+            overlay.classList.add('active');
+
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'celebration-heart';
+                    heart.innerHTML = '♥';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = '100%';
+                    heart.style.animationDelay = Math.random() * 0.5 + 's';
+                    overlay.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 100);
+            }
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 3500);
+        }
+
+        // Reveal letter
+        function revealLetter() {
+            const quizContainer = document.getElementById('quizContainer');
+            const letterContainer = document.getElementById('letterContainer');
+            
+            // Save completion state
+            sessionStorage.setItem('quizCompleted', 'true');
+            
+            // Create celebration
+            createCelebration();
+            
+            // Hide quiz with fade out
+            setTimeout(() => {
+                quizContainer.classList.add('hidden');
+                
+                setTimeout(() => {
+                    quizContainer.style.display = 'none';
+                    letterContainer.classList.add('revealed');
+                    
+                    // Scroll to top smoothly
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 800);
+            }, 500);
+        }
+
+        // Add event listeners to inputs
+        document.getElementById('answer1').addEventListener('input', () => checkAnswer(1));
+        document.getElementById('answer2').addEventListener('input', () => checkAnswer(2));
+        document.getElementById('answer3').addEventListener('input', () => checkAnswer(3));
+
+        // Add event listener to reveal button
+        document.getElementById('revealButton').addEventListener('click', function() {
+            if (this.classList.contains('active')) {
+                revealLetter();
+            }
+        });
+
+        // Initialize
+        checkQuizCompleted();
+        createHearts();
+    </script>
+</body>
+</html>
