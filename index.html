@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ♥</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #FFE5E5;
+            --deep-rose: #FFB3B3;
+            --accent: #FF6B9D;
+            --dark: #2D1B1B;
+            --cream: #FFF9F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--rose) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 107, 157, 0.15);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Lock screen */
+        .lock-screen {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.2);
+            max-width: 500px;
+            width: 90%;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .lock-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--accent), var(--deep-rose));
+            padding: 4px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.35);
+        }
+
+        .lock-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--dark);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--accent);
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .password-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 18px 25px;
+            border: 2px solid var(--deep-rose);
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            background: white;
+            transition: all 0.3s ease;
+            outline: none;
+            letter-spacing: 2px;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
+        }
+
+        .unlock-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent), #FF8AB5);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.3);
+        }
+
+        .unlock-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: var(--accent);
+            font-size: 13px;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .error-msg.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+            .lock-screen {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Lock Screen -->
+    <div class="lock-screen">
+        <div class="lock-icon">
+            <img src="Pictures/moon.png" alt="My Baby">
+        </div>
+        <h1>Our Memories</h1>
+        <p class="subtitle">Enter our Special Day</p>
+        <div class="password-container">
+            <input type="password" id="passwordInput" placeholder="Enter the Best Day Baby 00/00/00.">
+        </div>
+        <button class="unlock-btn" onclick="checkPassword()">Unlock</button>
+        <p class="error-msg" id="errorMsg">Try again, mahal ♥</p>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartBg = document.getElementById('heartBg');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '♥';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartBg.appendChild(heart);
+            }
+        }
+
+        // Password check - CHANGE 'forever' to your preferred password
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = '03/27/25'; 
+            
+            if (password.toLowerCase() === correctPassword) {
+                // Redirect to calendar page (home)
+                window.location.href = 'calendar.html';
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+                
+                setTimeout(() => {
+                    errorMsg.classList.remove('show');
+                }, 2000);
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Initialize
+        createHearts();
+        document.getElementById('passwordInput').focus();
+    </script>
+</body>
+</html>
